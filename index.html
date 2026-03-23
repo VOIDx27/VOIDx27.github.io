@@ -2,244 +2,236 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
-<title>GAURAV.EXE | セキュリティ</title>
-<meta name="description" content="Gaurav Kumar — Cybersecurity, Ethical Hacking, Anime Enjoyer. ようこそ。"/>
+<title>GAURAV.EXE | 魔法使い</title>
+<meta name="description" content="Gaurav Kumar — Cybersecurity & Ethical Hacking. 星空の旅人。"/>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Share+Tech+Mono&family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet"/>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
-  --bg:#000008;--s1:#05000f;--s2:#0a0018;
-  --pink:#ff2d78;--cyan:#00fff5;--purple:#b400ff;--lime:#39ff14;--yellow:#ffe016;
-  --text:#e8e8ff;--muted:#7070a0;
-  --gp:0 0 8px var(--pink),0 0 24px rgba(255,45,120,0.5);
-  --gc:0 0 8px var(--cyan),0 0 24px rgba(0,255,245,0.5);
-  --gpurp:0 0 8px var(--purple),0 0 24px rgba(180,0,255,0.5);
+  --sky1:#070d1f; --sky2:#0d1535; --sky3:#1a1040; --sky4:#150830;
+  --blue:#7db9e8; --lilac:#c4a8e8; --mint:#90d4b8; --gold:#f0d080; --rose:#e88898;
+  --text:#d0e4f8; --muted:#7090b8; --dim:#3a5070;
+  --gb:0 0 12px rgba(125,185,232,0.4),0 0 30px rgba(125,185,232,0.15);
+  --gl:0 0 12px rgba(196,168,232,0.4),0 0 30px rgba(196,168,232,0.15);
+  --gm:0 0 12px rgba(144,212,184,0.4);
 }
 html{scroll-behavior:smooth}
-body{font-family:'Outfit',sans-serif;background:var(--bg);color:var(--text);overflow-x:hidden;cursor:none}
+body{font-family:'Outfit',sans-serif;background:var(--sky1);color:var(--text);overflow-x:hidden;cursor:none}
 
 /* ── LOADING SCREEN ── */
-#loader{position:fixed;inset:0;background:#000;z-index:9999;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:20px;transition:opacity 0.8s}
+#loader{position:fixed;inset:0;background:var(--sky1);z-index:9999;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;transition:opacity 1s}
 #loader.gone{opacity:0;pointer-events:none}
-.ld-logo{font-family:'Orbitron',monospace;font-size:clamp(28px,5vw,52px);font-weight:900;color:var(--pink);text-shadow:var(--gp);letter-spacing:4px}
-.ld-jp{font-family:'Share Tech Mono',monospace;font-size:14px;color:var(--cyan);letter-spacing:6px}
-.ld-bar-wrap{width:280px;height:6px;background:#111;border:1px solid var(--pink);border-radius:3px;overflow:hidden}
-.ld-bar{height:100%;background:linear-gradient(90deg,var(--purple),var(--pink),var(--cyan));width:0;animation:ldanim 1.8s ease forwards}
-@keyframes ldanim{to{width:100%}}
-.ld-txt{font-family:'Share Tech Mono',monospace;font-size:11px;color:var(--muted);letter-spacing:2px}
+.ld-stars{position:absolute;inset:0;overflow:hidden}
+.ld-logo{font-family:'Orbitron',monospace;font-size:clamp(24px,5vw,48px);font-weight:900;color:var(--blue);text-shadow:var(--gb);letter-spacing:4px;position:relative;z-index:1}
+.ld-jp{font-family:'Share Tech Mono',monospace;font-size:14px;color:var(--lilac);letter-spacing:8px;position:relative;z-index:1;text-shadow:var(--gl)}
+.ld-bar-wrap{width:260px;height:3px;background:rgba(125,185,232,0.15);border-radius:2px;overflow:hidden;position:relative;z-index:1}
+.ld-bar{height:100%;background:linear-gradient(90deg,var(--sky1),var(--blue),var(--lilac),var(--mint));background-size:300% 100%;animation:ldb 1.8s ease forwards,ldshift 1.8s linear infinite}
+@keyframes ldb{to{width:100%}} @keyframes ldb{from{width:0}to{width:100%}}
+@keyframes ldshift{0%{background-position:100% 0}100%{background-position:0% 0}}
+.ld-txt{font-family:'Share Tech Mono',monospace;font-size:11px;color:var(--muted);letter-spacing:3px;position:relative;z-index:1}
 
-/* ── CRT OVERLAY ── */
-#crt{position:fixed;inset:0;z-index:800;pointer-events:none}
-#crt::before{content:'';position:absolute;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,0.18) 2px,rgba(0,0,0,0.18) 4px);pointer-events:none}
-#crt::after{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at center,transparent 60%,rgba(0,0,0,0.55) 100%);pointer-events:none}
-
-/* ── KATAKANA RAIN ── */
-#rain{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;pointer-events:none;opacity:0.18}
-
-/* ── SYNTHWAVE GRID ── */
-#grid-canvas{position:fixed;bottom:0;left:0;width:100%;height:45%;z-index:0;pointer-events:none;opacity:0.4}
+/* ── CANVAS / BACKGROUND ── */
+#sky-canvas{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;pointer-events:none}
 
 /* ── CURSOR ── */
-#cur{position:fixed;width:16px;height:16px;border:2px solid var(--pink);transform:translate(-50%,-50%);pointer-events:none;z-index:9998;transition:transform 0.1s}
-#cur::before{content:'';position:absolute;inset:-6px;border:1px solid rgba(255,45,120,0.3);border-radius:50%}
-#cur.hov{transform:translate(-50%,-50%) scale(2);border-color:var(--cyan)}
+#cur{position:fixed;width:10px;height:10px;background:var(--blue);border-radius:50%;transform:translate(-50%,-50%);pointer-events:none;z-index:9998;box-shadow:var(--gb);transition:transform 0.15s,background 0.2s}
+#cur-ring{position:fixed;width:36px;height:36px;border:1px solid rgba(125,185,232,0.35);border-radius:50%;transform:translate(-50%,-50%);pointer-events:none;z-index:9997;transition:all 0.18s ease}
+#cur.hov{transform:translate(-50%,-50%) scale(0);} 
+#cur-ring.hov{transform:translate(-50%,-50%) scale(1.8);border-color:rgba(196,168,232,0.5)}
 
 /* ── NAV ── */
-nav{position:fixed;top:0;left:0;right:0;z-index:500;display:flex;align-items:center;justify-content:space-between;padding:14px 48px;background:rgba(0,0,8,0.85);backdrop-filter:blur(10px);border-bottom:1px solid rgba(255,45,120,0.2)}
-.nav-logo{font-family:'Orbitron',monospace;font-size:16px;font-weight:900;color:var(--pink);text-shadow:var(--gp);letter-spacing:2px;text-decoration:none}
-.nav-links{display:flex;gap:28px;list-style:none}
-.nav-links a{color:var(--muted);text-decoration:none;font-family:'Share Tech Mono',monospace;font-size:12px;letter-spacing:1px;transition:color 0.2s,text-shadow 0.2s}
-.nav-links a:hover{color:var(--cyan);text-shadow:var(--gc)}
-.nav-cta{font-family:'Orbitron',monospace;font-size:11px;font-weight:700;padding:8px 18px;background:transparent;border:1px solid var(--pink);color:var(--pink);text-decoration:none;letter-spacing:2px;transition:all 0.2s;clip-path:polygon(8px 0%,100% 0%,100% calc(100% - 8px),calc(100% - 8px) 100%,0% 100%,0% 8px)}
-.nav-cta:hover{background:var(--pink);color:#000;box-shadow:var(--gp)}
+nav{position:fixed;top:0;left:0;right:0;z-index:500;display:flex;align-items:center;justify-content:space-between;padding:16px 48px;background:rgba(7,13,31,0.6);backdrop-filter:blur(20px);border-bottom:1px solid rgba(125,185,232,0.08)}
+.nav-logo{font-family:'Orbitron',monospace;font-size:15px;font-weight:900;color:var(--blue);text-shadow:var(--gb);letter-spacing:2px;text-decoration:none}
+.nav-links{display:flex;gap:32px;list-style:none}
+.nav-links a{color:var(--muted);text-decoration:none;font-family:'Share Tech Mono',monospace;font-size:12px;letter-spacing:1px;transition:color 0.3s,text-shadow 0.3s}
+.nav-links a:hover{color:var(--blue);text-shadow:var(--gb)}
+.nav-cta{font-family:'Share Tech Mono',monospace;font-size:11px;padding:7px 18px;background:rgba(125,185,232,0.08);border:1px solid rgba(125,185,232,0.25);color:var(--blue);text-decoration:none;letter-spacing:2px;border-radius:2px;transition:all 0.3s}
+.nav-cta:hover{background:rgba(125,185,232,0.15);box-shadow:var(--gb);transform:translateY(-1px)}
 
 /* ── HERO ── */
 .hero{min-height:100vh;display:flex;align-items:center;justify-content:center;position:relative;z-index:1;padding:100px 40px 60px;text-align:center}
-.hero-inner{max-width:900px}
+.hero-inner{max-width:860px}
 
-.insert-coin{font-family:'Share Tech Mono',monospace;font-size:11px;letter-spacing:4px;color:var(--yellow);margin-bottom:16px;animation:blink-coin 1s step-end infinite}
-@keyframes blink-coin{0%,100%{opacity:1}50%{opacity:0}}
+.hero-season{font-family:'Share Tech Mono',monospace;font-size:11px;letter-spacing:5px;color:var(--mint);margin-bottom:24px;text-shadow:var(--gm);opacity:0.8}
 
-.hero-jp{font-family:'Share Tech Mono',monospace;font-size:13px;color:var(--purple);letter-spacing:6px;margin-bottom:12px;text-shadow:var(--gpurp)}
+.hero-jp{font-family:'Share Tech Mono',monospace;font-size:13px;color:var(--lilac);letter-spacing:6px;margin-bottom:16px;text-shadow:var(--gl)}
 
-.hero-name{font-family:'Orbitron',monospace;font-size:clamp(42px,8vw,88px);font-weight:900;line-height:1;letter-spacing:-2px;margin-bottom:8px;position:relative;display:inline-block}
-.hero-name .n1{color:var(--cyan);text-shadow:var(--gc)}
-.hero-name .n2{color:var(--pink);text-shadow:var(--gp)}
-/* VHS glitch */
-.glitch-wrap{position:relative;display:inline-block}
-.glitch-wrap::before,.glitch-wrap::after{content:attr(data-text);position:absolute;top:0;left:0;width:100%;overflow:hidden}
-.glitch-wrap::before{color:var(--pink);text-shadow:none;animation:vhs1 3s infinite steps(1);clip-path:polygon(0 15%,100% 15%,100% 35%,0 35%)}
-.glitch-wrap::after{color:var(--cyan);text-shadow:none;animation:vhs2 3s infinite steps(1);clip-path:polygon(0 65%,100% 65%,100% 80%,0 80%)}
-@keyframes vhs1{0%,90%,100%{transform:translate(0);opacity:0}91%{transform:translate(-4px,1px);opacity:1}93%{transform:translate(4px,-1px);opacity:1}95%{opacity:0}}
-@keyframes vhs2{0%,85%,100%{transform:translate(0);opacity:0}86%{transform:translate(3px,2px);opacity:1}89%{transform:translate(-3px,-2px);opacity:1}92%{opacity:0}}
+.hero-name{font-family:'Orbitron',monospace;font-size:clamp(40px,8vw,84px);font-weight:900;line-height:1;letter-spacing:-2px;margin-bottom:12px}
+.hero-name .n1{color:var(--blue);text-shadow:var(--gb)}
+.hero-name .n2{color:var(--lilac);text-shadow:var(--gl)}
 
-.hero-sub{font-size:13px;color:var(--muted);font-family:'Share Tech Mono',monospace;letter-spacing:3px;margin:16px 0 24px;text-transform:uppercase}
-.hero-sub .hl{color:var(--lime);text-shadow:0 0 8px var(--lime)}
+/* Soft glitch */
+.gw{position:relative;display:inline-block}
+.gw::before,.gw::after{content:attr(data-text);position:absolute;top:0;left:0;width:100%;overflow:hidden;opacity:0}
+.gw::before{color:var(--rose);animation:sg1 6s infinite steps(1)}
+.gw::after{color:var(--mint);animation:sg2 6s infinite steps(1)}
+@keyframes sg1{0%,88%,100%{opacity:0;transform:translate(0)}89%{opacity:0.6;transform:translate(-3px,1px);clip-path:polygon(0 20%,100% 20%,100% 40%,0 40%)}91%{opacity:0}}
+@keyframes sg2{0%,92%,100%{opacity:0;transform:translate(0)}93%{opacity:0.6;transform:translate(3px,-1px);clip-path:polygon(0 60%,100% 60%,100% 80%,0 80%)}95%{opacity:0}}
+
+.hero-sub{font-family:'Share Tech Mono',monospace;font-size:12px;color:var(--muted);letter-spacing:3px;margin:14px 0 28px;text-transform:uppercase}
+.hero-sub .hl{color:var(--mint);text-shadow:var(--gm)}
 
 /* Terminal */
-.terminal{background:#000;border:1px solid var(--pink);padding:18px 22px;font-family:'Share Tech Mono',monospace;font-size:12px;color:#9090b0;text-align:left;max-width:500px;margin:0 auto 28px;position:relative;clip-path:polygon(0 0,calc(100% - 16px) 0,100% 16px,100% 100%,16px 100%,0 calc(100% - 16px))}
-.terminal::before{content:'SYSTEM.LOG';position:absolute;top:-10px;left:16px;background:#000;padding:0 8px;font-size:10px;color:var(--pink);letter-spacing:2px}
-.tl{margin-bottom:5px}.tp{color:var(--lime)}.tc{color:#fff}.to{color:var(--muted)}.ta{color:var(--cyan)}
-.cur{display:inline-block;width:7px;height:12px;background:var(--cyan);animation:blink-cur 1s step-end infinite;vertical-align:middle}
-@keyframes blink-cur{0%,100%{opacity:1}50%{opacity:0}}
+.terminal{background:rgba(7,13,31,0.8);border:1px solid rgba(125,185,232,0.15);padding:18px 22px;font-family:'Share Tech Mono',monospace;font-size:12px;text-align:left;max-width:480px;margin:0 auto 24px;border-radius:6px;backdrop-filter:blur(10px);box-shadow:0 8px 40px rgba(0,0,0,0.4),inset 0 1px 0 rgba(125,185,232,0.06)}
+.t-bar{display:flex;gap:6px;margin-bottom:14px;align-items:center}
+.t-dot{width:9px;height:9px;border-radius:50%}
+.t-dot.r{background:#e88898}.t-dot.y{background:#f0d080}.t-dot.g{background:#90d4b8}
+.t-title{font-size:10px;color:var(--dim);letter-spacing:2px;margin-left:8px}
+.tl{margin-bottom:4px}.tp{color:var(--mint)}.tc{color:#c8d8f0}.to{color:var(--dim)}.ta{color:var(--blue)}
+.cur-blink{display:inline-block;width:6px;height:11px;background:var(--blue);animation:cblink 1.2s step-end infinite;vertical-align:middle;opacity:0.8}
+@keyframes cblink{0%,100%{opacity:0.8}50%{opacity:0}}
 
-.quip{font-family:'Share Tech Mono',monospace;font-size:12px;color:var(--yellow);border:1px solid rgba(255,224,22,0.25);padding:10px 18px;display:inline-block;margin-bottom:36px;letter-spacing:1px}
+.quip{font-family:'Share Tech Mono',monospace;font-size:11px;color:var(--gold);border:1px solid rgba(240,208,128,0.15);padding:10px 20px;display:inline-block;margin-bottom:36px;border-radius:4px;background:rgba(240,208,128,0.04);letter-spacing:1px}
 
 .cta-row{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-bottom:56px}
-.btn-a{font-family:'Orbitron',monospace;font-size:11px;font-weight:700;padding:12px 28px;background:var(--pink);color:#000;text-decoration:none;letter-spacing:2px;clip-path:polygon(8px 0%,100% 0%,100% calc(100% - 8px),calc(100% - 8px) 100%,0% 100%,0% 8px);transition:all 0.2s}
-.btn-a:hover{box-shadow:var(--gp);transform:translateY(-3px)}
-.btn-b{font-family:'Orbitron',monospace;font-size:11px;font-weight:700;padding:12px 28px;background:transparent;border:1px solid var(--cyan);color:var(--cyan);text-decoration:none;letter-spacing:2px;clip-path:polygon(8px 0%,100% 0%,100% calc(100% - 8px),calc(100% - 8px) 100%,0% 100%,0% 8px);transition:all 0.2s}
-.btn-b:hover{background:rgba(0,255,245,0.1);box-shadow:var(--gc);transform:translateY(-3px)}
+.btn-a{font-family:'Share Tech Mono',monospace;font-size:11px;padding:12px 30px;background:linear-gradient(135deg,rgba(125,185,232,0.2),rgba(196,168,232,0.2));border:1px solid rgba(125,185,232,0.3);color:var(--blue);text-decoration:none;letter-spacing:2px;border-radius:4px;transition:all 0.3s;backdrop-filter:blur(4px)}
+.btn-a:hover{background:rgba(125,185,232,0.25);box-shadow:var(--gb);transform:translateY(-3px)}
+.btn-b{font-family:'Share Tech Mono',monospace;font-size:11px;padding:12px 30px;background:rgba(196,168,232,0.08);border:1px solid rgba(196,168,232,0.25);color:var(--lilac);text-decoration:none;letter-spacing:2px;border-radius:4px;transition:all 0.3s}
+.btn-b:hover{background:rgba(196,168,232,0.15);box-shadow:var(--gl);transform:translateY(-3px)}
 
-.stats-row{display:flex;gap:40px;justify-content:center;flex-wrap:wrap}
-.stat-box{text-align:center;border:1px solid rgba(255,45,120,0.2);padding:16px 24px;background:rgba(255,45,120,0.04);clip-path:polygon(6px 0%,100% 0%,100% calc(100% - 6px),calc(100% - 6px) 100%,0% 100%,0% 6px)}
-.stat-n{font-family:'Orbitron',monospace;font-size:28px;font-weight:900;color:var(--pink);text-shadow:var(--gp);display:block;line-height:1}
-.stat-l{font-family:'Share Tech Mono',monospace;font-size:9px;color:var(--muted);letter-spacing:2px;margin-top:4px;text-transform:uppercase}
+.stats-row{display:flex;gap:36px;justify-content:center;flex-wrap:wrap}
+.stat-box{text-align:center;padding:14px 20px;background:rgba(125,185,232,0.04);border:1px solid rgba(125,185,232,0.1);border-radius:8px;backdrop-filter:blur(4px)}
+.stat-n{font-family:'Orbitron',monospace;font-size:26px;font-weight:900;color:var(--blue);text-shadow:var(--gb);display:block;line-height:1}
+.stat-l{font-family:'Share Tech Mono',monospace;font-size:9px;color:var(--dim);letter-spacing:2px;margin-top:4px}
 
-.scroll-hint{position:absolute;bottom:24px;left:50%;transform:translateX(-50%);font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--purple);letter-spacing:3px;animation:float 2s ease-in-out infinite}
-@keyframes float{0%,100%{transform:translateX(-50%) translateY(0)}50%{transform:translateX(-50%) translateY(-6px)}}
+.scroll-hint{position:absolute;bottom:28px;left:50%;transform:translateX(-50%);font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--dim);letter-spacing:3px;animation:pfloat 3s ease-in-out infinite;display:flex;flex-direction:column;align-items:center;gap:6px}
+.scroll-arr{width:1px;height:28px;background:linear-gradient(to bottom,transparent,var(--blue));animation:pfloat 3s ease-in-out infinite}
+@keyframes pfloat{0%,100%{transform:translateX(-50%) translateY(0)}50%{transform:translateX(-50%) translateY(-8px)}}
 
 /* ── SECTIONS ── */
 .section{position:relative;z-index:1;padding:110px 48px;max-width:1160px;margin:0 auto}
-.divider{height:1px;background:linear-gradient(to right,transparent,rgba(255,45,120,0.3),var(--pink),rgba(255,45,120,0.3),transparent);position:relative;z-index:1;margin:0 40px}
-.s-eyebrow{font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--pink);letter-spacing:4px;text-transform:uppercase;margin-bottom:8px}
-.s-title{font-family:'Orbitron',monospace;font-size:clamp(26px,4vw,44px);font-weight:900;letter-spacing:-1px;margin-bottom:12px;color:var(--text)}
-.s-title span{color:var(--cyan);text-shadow:var(--gc)}
-.s-sub{font-family:'Share Tech Mono',monospace;font-size:12px;color:var(--muted);letter-spacing:1px;margin-bottom:56px;line-height:1.9;max-width:540px}
-.jp-deco{font-family:'Share Tech Mono',monospace;font-size:60px;position:absolute;right:48px;top:110px;color:rgba(180,0,255,0.07);pointer-events:none;letter-spacing:-4px;line-height:1;user-select:none}
+.divider{height:1px;background:linear-gradient(to right,transparent,rgba(125,185,232,0.15),rgba(196,168,232,0.15),transparent);position:relative;z-index:1;margin:0 40px}
+.s-eyebrow{font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--blue);letter-spacing:4px;text-transform:uppercase;margin-bottom:8px;opacity:0.7}
+.s-title{font-family:'Orbitron',monospace;font-size:clamp(24px,4vw,42px);font-weight:900;letter-spacing:-0.5px;margin-bottom:12px;color:var(--text)}
+.s-title .acc{color:var(--lilac);text-shadow:var(--gl)}
+.s-sub{font-family:'Share Tech Mono',monospace;font-size:11px;color:var(--muted);letter-spacing:1px;margin-bottom:52px;line-height:2;max-width:520px}
 
-/* ── ABOUT / RPG SHEET ── */
-.rpg-sheet{display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:start}
-.rpg-left p{font-size:14px;color:var(--muted);line-height:1.85;margin-bottom:14px}
-.rpg-left p strong{color:var(--text)}
-.fun-box{border:1px solid rgba(180,0,255,0.3);background:rgba(180,0,255,0.06);padding:14px 18px;margin-top:20px;font-family:'Share Tech Mono',monospace;font-size:11px;color:var(--purple);line-height:1.8;clip-path:polygon(6px 0%,100% 0%,100% calc(100% - 6px),calc(100% - 6px) 100%,0% 100%,0% 6px)}
-.rpg-right{}
-.rpg-title{font-family:'Orbitron',monospace;font-size:11px;color:var(--yellow);letter-spacing:2px;border-bottom:1px solid rgba(255,224,22,0.2);padding-bottom:8px;margin-bottom:20px}
-.stat-row{display:flex;align-items:center;gap:12px;margin-bottom:14px}
-.stat-label{font-family:'Share Tech Mono',monospace;font-size:11px;color:var(--muted);letter-spacing:1px;width:120px;flex-shrink:0}
-.stat-bar{flex:1;height:10px;background:#111;border:1px solid rgba(255,255,255,0.08);border-radius:2px;overflow:hidden;position:relative}
-.stat-fill{height:100%;border-radius:2px;animation:fillbar 1.5s ease forwards;width:0}
-@keyframes fillbar{to{width:var(--pct)}}
-.stat-fill.pink{background:linear-gradient(90deg,var(--purple),var(--pink))}
-.stat-fill.cyan{background:linear-gradient(90deg,var(--cyan),#00a8ff)}
-.stat-fill.lime{background:linear-gradient(90deg,#00a800,var(--lime))}
-.stat-fill.yellow{background:linear-gradient(90deg,#c47a00,var(--yellow))}
-.stat-val{font-family:'Orbitron',monospace;font-size:10px;color:var(--text);width:36px;text-align:right;flex-shrink:0}
-.class-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(255,45,120,0.1);border:1px solid rgba(255,45,120,0.3);padding:10px 18px;margin-top:20px;font-family:'Orbitron',monospace;font-size:11px;color:var(--pink);letter-spacing:2px}
+/* ── ABOUT ── */
+.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:start}
+.about-text p{font-size:14px;color:var(--muted);line-height:1.9;margin-bottom:14px}
+.about-text p strong{color:var(--text)}
+.lore-box{border:1px solid rgba(196,168,232,0.2);background:rgba(196,168,232,0.05);padding:16px 20px;margin-top:20px;font-family:'Share Tech Mono',monospace;font-size:11px;color:var(--lilac);line-height:1.8;border-radius:6px}
+.class-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(125,185,232,0.07);border:1px solid rgba(125,185,232,0.18);padding:10px 18px;margin-top:16px;font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--blue);letter-spacing:2px;border-radius:4px}
 
-/* ── SKILLS ── */
-.skills-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:18px}
-.skill-card{background:var(--s1);border:1px solid rgba(255,45,120,0.15);padding:24px;position:relative;overflow:hidden;transition:transform 0.2s,border-color 0.2s;cursor:default;clip-path:polygon(0 0,calc(100% - 12px) 0,100% 12px,100% 100%,12px 100%,0 calc(100% - 12px))}
-.skill-card::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,45,120,0.05),transparent);opacity:0;transition:opacity 0.3s}
-.skill-card:hover{border-color:var(--pink);transform:translateY(-6px) scale(1.01);box-shadow:0 0 20px rgba(255,45,120,0.15)}
+.rpg-title{font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--gold);letter-spacing:3px;border-bottom:1px solid rgba(240,208,128,0.12);padding-bottom:8px;margin-bottom:20px;opacity:0.8}
+.s-row{display:flex;align-items:center;gap:12px;margin-bottom:13px}
+.s-lbl{font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--dim);letter-spacing:1px;width:110px;flex-shrink:0}
+.s-bar{flex:1;height:6px;background:rgba(255,255,255,0.05);border-radius:6px;overflow:hidden}
+.s-fill{height:100%;border-radius:6px;animation:sfill 2s ease forwards;width:0;transition:width 1.5s ease}
+@keyframes sfill{to{width:var(--p)}}
+.s-fill.b{background:linear-gradient(90deg,rgba(125,185,232,0.4),var(--blue))}
+.s-fill.l{background:linear-gradient(90deg,rgba(196,168,232,0.4),var(--lilac))}
+.s-fill.m{background:linear-gradient(90deg,rgba(144,212,184,0.4),var(--mint))}
+.s-fill.g{background:linear-gradient(90deg,rgba(240,208,128,0.4),var(--gold))}
+.s-val{font-family:'Orbitron',monospace;font-size:9px;color:var(--muted);width:28px;text-align:right;flex-shrink:0}
+
+/* ── SKILL CARDS ── */
+.skills-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(275px,1fr));gap:16px}
+.skill-card{background:rgba(13,21,53,0.6);border:1px solid rgba(125,185,232,0.1);padding:24px;border-radius:10px;backdrop-filter:blur(8px);transition:transform 0.3s,border-color 0.3s,box-shadow 0.3s;cursor:default;position:relative;overflow:hidden}
+.skill-card::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(125,185,232,0.04),transparent,rgba(196,168,232,0.04));opacity:0;transition:opacity 0.4s;border-radius:inherit}
+.skill-card:hover{border-color:rgba(125,185,232,0.25);transform:translateY(-6px);box-shadow:0 16px 48px rgba(0,0,0,0.4),var(--gb)}
 .skill-card:hover::before{opacity:1}
-.sc-num{position:absolute;top:14px;right:16px;font-family:'Orbitron',monospace;font-size:9px;color:rgba(255,45,120,0.25);letter-spacing:2px}
 .sc-head{display:flex;align-items:center;gap:12px;margin-bottom:18px}
-.sc-icon{font-size:22px}
-.sc-name{font-family:'Orbitron',monospace;font-size:13px;font-weight:700;color:var(--text)}
+.sc-icon{font-size:20px;filter:drop-shadow(0 0 6px rgba(125,185,232,0.4))}
+.sc-name{font-family:'Orbitron',monospace;font-size:12px;font-weight:700;color:var(--text);letter-spacing:0.5px}
+.sc-num{font-family:'Share Tech Mono',monospace;font-size:9px;color:var(--dim);letter-spacing:2px;margin-left:auto}
 .tags{display:flex;flex-wrap:wrap;gap:6px}
-.tag{font-family:'Share Tech Mono',monospace;padding:3px 10px;font-size:10px;border-radius:2px;transition:all 0.2s;cursor:default;letter-spacing:0.5px}
+.tag{font-family:'Share Tech Mono',monospace;padding:3px 10px;font-size:10px;border-radius:100px;letter-spacing:0.5px;transition:transform 0.2s,box-shadow 0.2s}
 .tag:hover{transform:scale(1.08)}
-.tag.pk{background:rgba(255,45,120,0.1);color:var(--pink);border:1px solid rgba(255,45,120,0.2)}
-.tag.cy{background:rgba(0,255,245,0.08);color:var(--cyan);border:1px solid rgba(0,255,245,0.2)}
-.tag.pu{background:rgba(180,0,255,0.08);color:#c060ff;border:1px solid rgba(180,0,255,0.2)}
-.tag.li{background:rgba(57,255,20,0.08);color:var(--lime);border:1px solid rgba(57,255,20,0.2)}
+.tag.b{background:rgba(125,185,232,0.1);color:var(--blue);border:1px solid rgba(125,185,232,0.2)}
+.tag.l{background:rgba(196,168,232,0.1);color:var(--lilac);border:1px solid rgba(196,168,232,0.2)}
+.tag.m{background:rgba(144,212,184,0.1);color:var(--mint);border:1px solid rgba(144,212,184,0.2)}
+.tag.g{background:rgba(240,208,128,0.1);color:var(--gold);border:1px solid rgba(240,208,128,0.2)}
 
-/* ── PROJECTS / MISSION SELECT ── */
-.missions-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(330px,1fr));gap:20px}
-.mission-card{background:var(--s1);border:1px solid rgba(0,255,245,0.12);padding:28px;position:relative;overflow:hidden;transition:transform 0.15s,border-color 0.3s;cursor:default;clip-path:polygon(0 0,calc(100% - 16px) 0,100% 16px,100% 100%,16px 100%,0 calc(100% - 16px))}
-.mission-card::after{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--cyan),var(--purple));transform:scaleX(0);transform-origin:left;transition:transform 0.4s}
-.mission-card:hover{border-color:var(--cyan);transform:translateY(-6px);box-shadow:0 0 30px rgba(0,255,245,0.08)}
-.mission-card:hover::after{transform:scaleX(1)}
-.mission-num{font-family:'Orbitron',monospace;font-size:9px;color:rgba(0,255,245,0.3);letter-spacing:3px;margin-bottom:14px}
-.mission-icon{font-size:36px;margin-bottom:14px;display:block;filter:drop-shadow(0 0 8px rgba(0,255,245,0.4))}
-.mission-name{font-family:'Orbitron',monospace;font-size:14px;font-weight:700;color:var(--text);margin-bottom:6px;letter-spacing:0.5px}
-.mission-badge{font-family:'Share Tech Mono',monospace;font-size:9px;color:var(--cyan);border:1px solid rgba(0,255,245,0.2);padding:2px 8px;display:inline-block;margin-bottom:14px;letter-spacing:1px}
-.mission-desc{font-size:13px;color:var(--muted);line-height:1.75;margin-bottom:16px}
-.mission-techs{display:flex;flex-wrap:wrap;gap:5px}
-.tech-pill{font-family:'Share Tech Mono',monospace;font-size:10px;background:rgba(255,255,255,0.04);color:var(--muted);border:1px solid rgba(255,255,255,0.06);padding:2px 8px;letter-spacing:0.5px}
+/* ── PROJECTS ── */
+.proj-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(330px,1fr));gap:18px}
+.proj-card{background:rgba(13,21,53,0.55);border:1px solid rgba(196,168,232,0.1);padding:28px;border-radius:12px;backdrop-filter:blur(8px);position:relative;overflow:hidden;transition:transform 0.2s,border-color 0.3s,box-shadow 0.3s;cursor:default}
+.proj-card::after{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--blue),var(--lilac),transparent);transform:scaleX(0);transition:transform 0.5s ease}
+.proj-card:hover{border-color:rgba(196,168,232,0.22);transform:translateY(-5px);box-shadow:0 20px 60px rgba(0,0,0,0.5),0 0 40px rgba(196,168,232,0.06)}
+.proj-card:hover::after{transform:scaleX(1)}
+.proj-num{font-family:'Share Tech Mono',monospace;font-size:9px;color:var(--dim);letter-spacing:3px;margin-bottom:12px}
+.proj-icon{font-size:34px;margin-bottom:14px;display:block;filter:drop-shadow(0 0 10px rgba(125,185,232,0.3))}
+.proj-name{font-family:'Orbitron',monospace;font-size:13px;font-weight:700;color:var(--text);margin-bottom:6px}
+.proj-badge{font-family:'Share Tech Mono',monospace;font-size:9px;color:var(--mint);border:1px solid rgba(144,212,184,0.2);padding:2px 8px;display:inline-block;margin-bottom:14px;border-radius:100px;letter-spacing:1px;background:rgba(144,212,184,0.06)}
+.proj-desc{font-size:13px;color:var(--muted);line-height:1.8;margin-bottom:16px}
+.proj-techs{display:flex;flex-wrap:wrap;gap:5px}
+.tech-pill{font-family:'Share Tech Mono',monospace;font-size:10px;background:rgba(125,185,232,0.05);color:var(--dim);border:1px solid rgba(125,185,232,0.1);padding:2px 8px;border-radius:4px}
 
-/* ── EXPERIENCE / TIMELINE ── */
-.timeline{position:relative;padding-left:36px}
-.timeline::before{content:'';position:absolute;left:0;top:0;bottom:0;width:1px;background:linear-gradient(to bottom,var(--pink),var(--purple),transparent)}
+/* ── TIMELINE ── */
+.timeline{position:relative;padding-left:32px}
+.timeline::before{content:'';position:absolute;left:0;top:0;bottom:0;width:1px;background:linear-gradient(to bottom,var(--blue),var(--lilac),transparent);opacity:0.3}
 .tl-item{position:relative;margin-bottom:48px}
-.tl-dot{position:absolute;left:-41px;top:6px;width:14px;height:14px;background:var(--pink);box-shadow:var(--gp);clip-path:polygon(50% 0%,100% 50%,50% 100%,0% 50%)}
-.tl-date{font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--pink);letter-spacing:2px;margin-bottom:6px}
-.tl-title{font-family:'Orbitron',monospace;font-size:16px;font-weight:700;margin-bottom:3px}
-.tl-org{font-size:13px;color:var(--purple);font-family:'Share Tech Mono',monospace;letter-spacing:1px;margin-bottom:10px}
-.tl-desc{font-size:13px;color:var(--muted);line-height:1.75}
+.tl-dot{position:absolute;left:-38px;top:6px;width:12px;height:12px;background:var(--blue);border-radius:50%;box-shadow:var(--gb);border:2px solid var(--sky1)}
+.tl-date{font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--blue);letter-spacing:2px;margin-bottom:6px;opacity:0.7}
+.tl-title{font-family:'Orbitron',monospace;font-size:16px;font-weight:700;margin-bottom:2px;color:var(--text)}
+.tl-org{font-size:12px;color:var(--lilac);font-family:'Share Tech Mono',monospace;letter-spacing:1px;margin-bottom:10px;opacity:0.8}
+.tl-desc{font-size:13px;color:var(--muted);line-height:1.8}
 
 /* ── CERTS ── */
-.certs-row{display:flex;gap:16px;flex-wrap:wrap}
-.cert-card{flex:1;min-width:200px;background:var(--s1);border:1px solid rgba(180,0,255,0.2);padding:22px;transition:transform 0.2s,box-shadow 0.2s;clip-path:polygon(0 0,calc(100% - 10px) 0,100% 10px,100% 100%,10px 100%,0 calc(100% - 10px))}
-.cert-card:hover{transform:translateY(-5px);box-shadow:0 0 20px rgba(180,0,255,0.2)}
-.cc-e{font-size:24px;margin-bottom:8px}
-.cc-n{font-family:'Orbitron',monospace;font-size:12px;font-weight:700;margin-bottom:4px;color:var(--text)}
-.cc-d{font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--muted);line-height:1.5}
-.cc-s{display:inline-block;margin-top:8px;font-family:'Share Tech Mono',monospace;font-size:9px;padding:2px 8px;letter-spacing:1px}
-.cc-s.done{background:rgba(57,255,20,0.08);color:var(--lime);border:1px solid rgba(57,255,20,0.2)}
-.cc-s.wip{background:rgba(255,224,22,0.08);color:var(--yellow);border:1px solid rgba(255,224,22,0.2)}
+.certs-row{display:flex;gap:14px;flex-wrap:wrap}
+.cert-card{flex:1;min-width:200px;background:rgba(13,21,53,0.55);border:1px solid rgba(196,168,232,0.12);padding:22px;border-radius:10px;backdrop-filter:blur(8px);transition:transform 0.3s,box-shadow 0.3s}
+.cert-card:hover{transform:translateY(-5px);box-shadow:0 16px 40px rgba(0,0,0,0.4),var(--gl)}
+.cc-e{font-size:24px;margin-bottom:8px;filter:drop-shadow(0 0 6px rgba(196,168,232,0.3))}
+.cc-n{font-family:'Orbitron',monospace;font-size:11px;font-weight:700;margin-bottom:4px;color:var(--text)}
+.cc-d{font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--dim);line-height:1.6}
+.cc-s{display:inline-block;margin-top:10px;font-family:'Share Tech Mono',monospace;font-size:9px;padding:2px 8px;border-radius:100px;letter-spacing:1px}
+.cc-s.done{background:rgba(144,212,184,0.1);color:var(--mint);border:1px solid rgba(144,212,184,0.2)}
+.cc-s.wip{background:rgba(240,208,128,0.1);color:var(--gold);border:1px solid rgba(240,208,128,0.2)}
 
 /* ── ACHIEVEMENTS ── */
 .ach-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px}
-.ach-card{background:var(--s1);border:1px solid rgba(255,45,120,0.12);padding:20px;display:flex;gap:14px;transition:transform 0.2s,border-color 0.2s}
-.ach-card:hover{border-color:var(--pink);transform:translateY(-4px)}
-.ach-icon{font-size:24px;flex-shrink:0;filter:drop-shadow(0 0 6px rgba(255,45,120,0.5))}
+.ach-card{background:rgba(13,21,53,0.5);border:1px solid rgba(125,185,232,0.1);padding:20px;border-radius:10px;display:flex;gap:14px;backdrop-filter:blur(6px);transition:transform 0.3s,border-color 0.3s}
+.ach-card:hover{border-color:rgba(125,185,232,0.22);transform:translateY(-4px)}
+.ach-icon{font-size:22px;flex-shrink:0;filter:drop-shadow(0 0 6px rgba(125,185,232,0.3))}
 .ach-title{font-family:'Orbitron',monospace;font-size:11px;font-weight:700;margin-bottom:4px;color:var(--text)}
 .ach-detail{font-size:12px;color:var(--muted);line-height:1.6}
 
-/* ── CONTACT / SAVE POINT ── */
-.save-point{text-align:center;position:relative}
-.save-icon{font-size:56px;margin-bottom:12px;display:block;animation:spin-save 6s linear infinite}
-@keyframes spin-save{0%,90%,100%{transform:rotate(0deg)}95%{transform:rotate(360deg)}}
-.save-title{font-family:'Orbitron',monospace;font-size:clamp(24px,4vw,40px);font-weight:900;color:var(--yellow);text-shadow:0 0 12px var(--yellow),0 0 30px rgba(255,224,22,0.4);margin-bottom:8px}
-.save-sub{font-family:'Share Tech Mono',monospace;font-size:11px;color:var(--muted);letter-spacing:2px;margin-bottom:40px;line-height:1.9}
-.contact-links{display:flex;justify-content:center;gap:14px;flex-wrap:wrap;margin-bottom:56px}
-.contact-btn{display:flex;align-items:center;gap:10px;padding:12px 24px;text-decoration:none;font-family:'Orbitron',monospace;font-size:10px;font-weight:700;letter-spacing:2px;transition:all 0.2s;clip-path:polygon(6px 0%,100% 0%,100% calc(100% - 6px),calc(100% - 6px) 100%,0% 100%,0% 6px)}
-.contact-btn:hover{transform:translateY(-4px)}
-.contact-btn.em{background:rgba(255,45,120,0.1);border:1px solid var(--pink);color:var(--pink)}
-.contact-btn.em:hover{background:rgba(255,45,120,0.2);box-shadow:var(--gp)}
-.contact-btn.gh{background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.15);color:var(--text)}
-.contact-btn.gh:hover{border-color:var(--text);box-shadow:0 0 16px rgba(255,255,255,0.1)}
-.contact-btn.li{background:rgba(0,255,245,0.06);border:1px solid var(--cyan);color:var(--cyan)}
-.contact-btn.li:hover{background:rgba(0,255,245,0.12);box-shadow:var(--gc)}
-.footer{font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--muted);border-top:1px solid rgba(255,45,120,0.15);padding-top:24px;letter-spacing:2px}
-.footer span{color:var(--pink)}
+/* ── CONTACT ── */
+.contact-inner{text-align:center;max-width:600px;margin:0 auto}
+.contact-icon{font-size:52px;display:block;margin-bottom:16px;animation:pfloat 4s ease-in-out infinite}
+.contact-title{font-family:'Orbitron',monospace;font-size:clamp(22px,4vw,38px);font-weight:900;color:var(--blue);text-shadow:var(--gb);margin-bottom:8px}
+.contact-sub{font-family:'Share Tech Mono',monospace;font-size:11px;color:var(--muted);letter-spacing:2px;margin-bottom:40px;line-height:2}
+.contact-links{display:flex;justify-content:center;gap:14px;flex-wrap:wrap;margin-bottom:52px}
+.cbtn{display:flex;align-items:center;gap:8px;padding:12px 24px;text-decoration:none;font-family:'Share Tech Mono',monospace;font-size:10px;letter-spacing:2px;border-radius:6px;transition:all 0.3s;backdrop-filter:blur(4px)}
+.cbtn:hover{transform:translateY(-4px)}
+.cbtn.em{background:rgba(125,185,232,0.08);border:1px solid rgba(125,185,232,0.2);color:var(--blue)}
+.cbtn.em:hover{box-shadow:var(--gb)}
+.cbtn.gh{background:rgba(208,228,248,0.05);border:1px solid rgba(208,228,248,0.1);color:var(--text)}
+.cbtn.li{background:rgba(196,168,232,0.08);border:1px solid rgba(196,168,232,0.2);color:var(--lilac)}
+.cbtn.li:hover{box-shadow:var(--gl)}
+.footer{font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--dim);border-top:1px solid rgba(125,185,232,0.08);padding-top:24px;letter-spacing:2px}
+.footer span{color:var(--rose)}
 
 /* ── REVEAL ── */
-.reveal{opacity:0;transform:translateY(32px);transition:opacity 0.7s cubic-bezier(0.16,1,0.3,1),transform 0.7s cubic-bezier(0.16,1,0.3,1)}
+.reveal{opacity:0;transform:translateY(28px);transition:opacity 0.9s cubic-bezier(0.16,1,0.3,1),transform 0.9s cubic-bezier(0.16,1,0.3,1)}
 .reveal.vis{opacity:1;transform:none}
 .d1{transition-delay:0.1s}.d2{transition-delay:0.2s}.d3{transition-delay:0.3s}
 
 @media(max-width:768px){
-  nav{padding:12px 20px}.nav-links{display:none}
-  .section{padding:80px 20px}.rpg-sheet{grid-template-columns:1fr;gap:32px}
-  .hero{padding:110px 20px 60px}.jp-deco{display:none}
+  nav{padding:13px 20px}.nav-links{display:none}
+  .section{padding:80px 20px}.about-grid{grid-template-columns:1fr;gap:32px}
+  .hero{padding:110px 20px 60px}
 }
 </style>
 </head>
 <body>
 
-<!-- Loading Screen -->
+<!-- Loader -->
 <div id="loader">
-  <div class="ld-jp">ようこそ · WELCOME</div>
+  <div class="ld-stars" id="ld-stars"></div>
+  <div class="ld-jp">星空の旅人 · TRAVELER OF THE STARRY SKY</div>
   <div class="ld-logo">GAURAV.EXE</div>
-  <div class="ld-bar-wrap"><div class="ld-bar"></div></div>
-  <div class="ld-txt">LOADING SYSTEM... セキュリティ起動中</div>
+  <div class="ld-bar-wrap"><div class="ld-bar" id="ld-bar"></div></div>
+  <div class="ld-txt">INITIALIZING MAGIC SYSTEM... 起動中</div>
 </div>
-
-<!-- CRT Effect -->
-<div id="crt"></div>
 
 <!-- Cursor -->
 <div id="cur"></div>
+<div id="cur-ring"></div>
 
-<!-- Katakana Rain -->
-<canvas id="rain"></canvas>
-
-<!-- Synthwave Grid -->
-<canvas id="grid-canvas"></canvas>
+<!-- Sky Canvas -->
+<canvas id="sky-canvas"></canvas>
 
 <!-- NAV -->
 <nav>
@@ -249,37 +241,39 @@ nav{position:fixed;top:0;left:0;right:0;z-index:500;display:flex;align-items:cen
     <li><a href="#skills">SKILLS</a></li>
     <li><a href="#projects">MISSIONS</a></li>
     <li><a href="#experience">STORY</a></li>
-    <li><a href="#contact">SAVE</a></li>
+    <li><a href="#contact">CONTACT</a></li>
   </ul>
-  <a href="mailto:gauravkumar9416385177@gmail.com" class="nav-cta">HIRE ME ▶</a>
+  <a href="mailto:gauravkumar9416385177@gmail.com" class="nav-cta">HIRE ME ✦</a>
 </nav>
 
 <!-- ═══ HERO ═══ -->
 <div class="hero">
   <div class="hero-inner reveal">
-    <div class="insert-coin">▶ INSERT COIN · PLAYER 1 PRESS START ◀</div>
-    <div class="hero-jp">ガウラフ · クマル · セキュリティ · 倫理ハッカー</div>
-    <div class="glitch-wrap" data-text="GAURAV KUMAR">
-      <h1 class="hero-name">
-        <span class="n1">GAURAV</span> <span class="n2">KUMAR</span>
-      </h1>
+    <div class="hero-season">✦ &nbsp; OPEN TO INTERNSHIPS &nbsp; · &nbsp; GURUGRAM, INDIA &nbsp; ✦</div>
+    <div class="hero-jp">ガウラフ・クマル · 倫理ハッカー · 魔法使い</div>
+    <div class="gw" data-text="GAURAV KUMAR">
+      <h1 class="hero-name"><span class="n1">GAURAV</span> <span class="n2">KUMAR</span></h1>
     </div>
     <p class="hero-sub">CYBERSECURITY · ETHICAL HACKING · <span class="hl">アニメ enjoyer</span></p>
 
     <div class="terminal">
+      <div class="t-bar">
+        <div class="t-dot r"></div><div class="t-dot y"></div><div class="t-dot g"></div>
+        <span class="t-title">SYSTEM.LOG — gaurav@void</span>
+      </div>
       <div class="tl"><span class="tp">gaurav@void:~$</span><span class="tc"> whoami</span></div>
-      <div class="tl"><span class="to">→ </span><span class="ta">B.Tech CSE (Cyber) · GD Goenka · Year 3</span></div>
-      <div class="tl" style="margin-top:6px"><span class="tp">gaurav@void:~$</span><span class="tc"> skills --list</span></div>
+      <div class="tl"><span class="to">→ </span><span class="ta">B.Tech CSE (Cybersecurity) · GD Goenka · Year 3</span></div>
+      <div class="tl" style="margin-top:7px"><span class="tp">gaurav@void:~$</span><span class="tc"> ./skills.sh</span></div>
       <div class="tl"><span class="to">→ VAPT · Ethical Hacking · AI Agents · Blockchain</span></div>
-      <div class="tl" style="margin-top:6px"><span class="tp">gaurav@void:~$</span><span class="tc"> ./status.sh</span></div>
-      <div class="tl"><span class="to">→ </span><span class="ta">SEEKING INTERNSHIP · READY TO DEPLOY</span><span class="cur"></span></div>
+      <div class="tl" style="margin-top:7px"><span class="tp">gaurav@void:~$</span><span class="tc"> status --check</span></div>
+      <div class="tl"><span class="to">→ </span><span class="ta">SEEKING INTERNSHIP · READY TO DEPLOY</span><span class="cur-blink"></span></div>
     </div>
 
-    <div class="quip">⚠ "I don't hack people. I just find the bugs before the villains do."</div>
+    <div class="quip">✦ "I find bugs before the villains do. The coffee helps." ✦</div>
 
     <div class="cta-row">
-      <a href="#projects" class="btn-a">[ MISSIONS ]</a>
-      <a href="#contact" class="btn-b">[ CONTACT ]</a>
+      <a href="#projects" class="btn-a">[ VIEW MISSIONS ]</a>
+      <a href="#contact" class="btn-b">[ GET IN TOUCH ]</a>
     </div>
 
     <div class="stats-row">
@@ -289,37 +283,36 @@ nav{position:fixed;top:0;left:0;right:0;z-index:500;display:flex;align-items:cen
       <div class="stat-box"><span class="stat-n">∞</span><span class="stat-l">Curiosity</span></div>
     </div>
   </div>
-  <div class="scroll-hint">▼ SCROLL DOWN · スクロール ▼</div>
+  <div class="scroll-hint"><span>scroll</span><div class="scroll-arr"></div></div>
 </div>
 
 <div class="divider"></div>
 
-<!-- ═══ ABOUT / RPG SHEET ═══ -->
+<!-- ═══ ABOUT ═══ -->
 <section id="about" class="section">
-  <div class="jp-deco">駭客<br/>倫理<br/>防御</div>
   <div class="reveal">
     <div class="s-eyebrow">// player_profile.dat</div>
-    <h2 class="s-title">CHARACTER <span>SHEET</span> 📋</h2>
-    <p class="s-sub">LEVEL 3 CYBERSECURITY STUDENT · CLASS: ETHICAL HACKER · GUILD: GD GOENKA UNIVERSITY</p>
+    <h2 class="s-title">CHARACTER <span class="acc">SHEET</span></h2>
+    <p class="s-sub">LEVEL 3 · CLASS: ETHICAL HACKER · GUILD: GD GOENKA UNIVERSITY · SP: COFFEE</p>
   </div>
-  <div class="rpg-sheet">
-    <div class="rpg-left reveal d1">
-      <p>Yo! I'm <strong>Gaurav Kumar</strong> — a <strong>B.Tech CSE (Cybersecurity)</strong> student at GD Goenka University (2027 batch). By day I audit systems. By night I watch anime and push code that somehow still works.</p>
-      <p>Deeply passionate about <strong>VAPT</strong>, <strong>digital forensics</strong>, and building <strong>AI-powered</strong> tools. I treat every bug like a final boss — I come back with better gear.</p>
-      <p>Also built blockchain experiments, full-stack apps, and participated in hackathons. Based in <strong>Gurugram, India</strong>. Location: physically here, mentally in cyberpunk 2077.</p>
-      <div class="fun-box">💀 PRO TIP: Never ask me how long I've been debugging. The answer is always "since yesterday" and it's never been true.</div>
-      <div class="class-badge" style="margin-top:20px">⚔ CLASS: ETHICAL HACKER · LVL 3</div>
+  <div class="about-grid">
+    <div class="about-text reveal d1">
+      <p>Hey! I'm <strong>Gaurav Kumar</strong> — a <strong>B.Tech CSE (Cybersecurity)</strong> student at GD Goenka University (2027 batch). By day I audit systems. By night I watch anime and push code that somehow still works.</p>
+      <p>Passionate about <strong>VAPT</strong>, <strong>digital forensics</strong>, and <strong>AI-powered tools</strong>. I treat every vulnerability like a side quest — I come back with better gear and a plan.</p>
+      <p>Also built blockchain experiments, full-stack apps, and survived hackathons. Based in <strong>Gurugram, India</strong>. Mentally somewhere between Cyberpunk 2077 and a Frieren arc.</p>
+      <div class="lore-box">✦ LORE: Once fixed a critical bug at 3AM, went to sleep, woke up and it came back. Some say it never left. We do not speak of this.</div>
+      <div class="class-badge">⚔ CLASS: ETHICAL HACKER &nbsp;·&nbsp; LVL 3 &nbsp;·&nbsp; EXP: ████░ 80%</div>
     </div>
-    <div class="rpg-right reveal d2">
-      <div class="rpg-title">▶ ABILITY SCORES</div>
-      <div class="stat-row"><span class="stat-label">VAPT / PENTEST</span><div class="stat-bar"><div class="stat-fill pink" style="--pct:85%"></div></div><span class="stat-val">85</span></div>
-      <div class="stat-row"><span class="stat-label">PYTHON / CODE</span><div class="stat-bar"><div class="stat-fill cyan" style="--pct:80%"></div></div><span class="stat-val">80</span></div>
-      <div class="stat-row"><span class="stat-label">WEB DEV</span><div class="stat-bar"><div class="stat-fill lime" style="--pct:75%"></div></div><span class="stat-val">75</span></div>
-      <div class="stat-row"><span class="stat-label">AI / LLM</span><div class="stat-bar"><div class="stat-fill yellow" style="--pct:70%"></div></div><span class="stat-val">70</span></div>
-      <div class="stat-row"><span class="stat-label">FORENSICS</span><div class="stat-bar"><div class="stat-fill pink" style="--pct:78%"></div></div><span class="stat-val">78</span></div>
-      <div class="stat-row"><span class="stat-label">BLOCKCHAIN</span><div class="stat-bar"><div class="stat-fill cyan" style="--pct:65%"></div></div><span class="stat-val">65</span></div>
-      <div class="stat-row"><span class="stat-label">LINUX / SYS</span><div class="stat-bar"><div class="stat-fill lime" style="--pct:82%"></div></div><span class="stat-val">82</span></div>
-      <div class="stat-row"><span class="stat-label">COFFEE INTAKE</span><div class="stat-bar"><div class="stat-fill yellow" style="--pct:99%"></div></div><span class="stat-val">99</span></div>
+    <div class="reveal d2">
+      <div class="rpg-title">▸ ABILITY SCORES</div>
+      <div class="s-row"><span class="s-lbl">VAPT / PENTEST</span><div class="s-bar"><div class="s-fill b" style="--p:85%"></div></div><span class="s-val">85</span></div>
+      <div class="s-row"><span class="s-lbl">PYTHON / CODE</span><div class="s-bar"><div class="s-fill l" style="--p:80%"></div></div><span class="s-val">80</span></div>
+      <div class="s-row"><span class="s-lbl">LINUX / SYS</span><div class="s-bar"><div class="s-fill m" style="--p:82%"></div></div><span class="s-val">82</span></div>
+      <div class="s-row"><span class="s-lbl">WEB DEV</span><div class="s-bar"><div class="s-fill b" style="--p:75%"></div></div><span class="s-val">75</span></div>
+      <div class="s-row"><span class="s-lbl">FORENSICS</span><div class="s-bar"><div class="s-fill l" style="--p:78%"></div></div><span class="s-val">78</span></div>
+      <div class="s-row"><span class="s-lbl">AI / LLM</span><div class="s-bar"><div class="s-fill m" style="--p:70%"></div></div><span class="s-val">70</span></div>
+      <div class="s-row"><span class="s-lbl">BLOCKCHAIN</span><div class="s-bar"><div class="s-fill g" style="--p:65%"></div></div><span class="s-val">65</span></div>
+      <div class="s-row"><span class="s-lbl">COFFEE INTAKE</span><div class="s-bar"><div class="s-fill g" style="--p:99%"></div></div><span class="s-val">99</span></div>
     </div>
   </div>
 </section>
@@ -329,98 +322,91 @@ nav{position:fixed;top:0;left:0;right:0;z-index:500;display:flex;align-items:cen
 <!-- ═══ SKILLS ═══ -->
 <section id="skills" class="section">
   <div class="reveal">
-    <div class="s-eyebrow">// ability_tree.json</div>
-    <h2 class="s-title">SKILL <span>TREE</span> 🌐</h2>
-    <p class="s-sub">UNLOCKED ABILITIES · ACTIVE PERKS · IN PROGRESS UPGRADES</p>
+    <div class="s-eyebrow">// skill_tree.json</div>
+    <h2 class="s-title">SKILL <span class="acc">TREE</span> ✦</h2>
+    <p class="s-sub">UNLOCKED PERKS · ACTIVE BUFFS · IN PROGRESS UPGRADES</p>
   </div>
   <div class="skills-grid">
     <div class="skill-card reveal d1" data-tilt>
-      <div class="sc-num">01 / SECURITY</div>
-      <div class="sc-head"><div class="sc-icon">🔐</div><div class="sc-name">OFFENSE & DEFENSE</div></div>
-      <div class="tags"><span class="tag pk">VAPT</span><span class="tag pk">Ethical Hacking</span><span class="tag pk">Digital Forensics</span><span class="tag pk">Pen Testing</span><span class="tag pk">Security Auditing</span></div>
+      <div class="sc-head"><div class="sc-icon">🔐</div><div class="sc-name">OFFENSE & DEFENSE</div><div class="sc-num">01</div></div>
+      <div class="tags"><span class="tag b">VAPT</span><span class="tag b">Ethical Hacking</span><span class="tag b">Digital Forensics</span><span class="tag b">Pen Testing</span><span class="tag b">Security Auditing</span></div>
     </div>
     <div class="skill-card reveal d1" data-tilt>
-      <div class="sc-num">02 / TOOLS</div>
-      <div class="sc-head"><div class="sc-icon">🛠</div><div class="sc-name">WEAPON LOADOUT</div></div>
-      <div class="tags"><span class="tag cy">Nmap</span><span class="tag cy">Wireshark</span><span class="tag cy">Metasploit</span><span class="tag cy">Nessus</span><span class="tag cy">Nikto</span></div>
+      <div class="sc-head"><div class="sc-icon">🛠</div><div class="sc-name">WEAPON LOADOUT</div><div class="sc-num">02</div></div>
+      <div class="tags"><span class="tag l">Nmap</span><span class="tag l">Wireshark</span><span class="tag l">Metasploit</span><span class="tag l">Nessus</span><span class="tag l">Nikto</span></div>
     </div>
     <div class="skill-card reveal d2" data-tilt>
-      <div class="sc-num">03 / CODE</div>
-      <div class="sc-head"><div class="sc-icon">💻</div><div class="sc-name">PROGRAMMING</div></div>
-      <div class="tags"><span class="tag li">Python</span><span class="tag li">C</span><span class="tag li">C++</span><span class="tag li">JavaScript</span><span class="tag li">PHP</span></div>
+      <div class="sc-head"><div class="sc-icon">💻</div><div class="sc-name">PROGRAMMING</div><div class="sc-num">03</div></div>
+      <div class="tags"><span class="tag m">Python</span><span class="tag m">C</span><span class="tag m">C++</span><span class="tag m">JavaScript</span><span class="tag m">PHP</span></div>
     </div>
     <div class="skill-card reveal d2" data-tilt>
-      <div class="sc-num">04 / WEB</div>
-      <div class="sc-head"><div class="sc-icon">🌐</div><div class="sc-name">WEB ARTS</div></div>
-      <div class="tags"><span class="tag pu">HTML5</span><span class="tag pu">CSS3</span><span class="tag pu">JavaScript</span><span class="tag pu">WordPress</span></div>
+      <div class="sc-head"><div class="sc-icon">🌐</div><div class="sc-name">WEB ARTS</div><div class="sc-num">04</div></div>
+      <div class="tags"><span class="tag g">HTML5</span><span class="tag g">CSS3</span><span class="tag g">JavaScript</span><span class="tag g">WordPress</span></div>
     </div>
     <div class="skill-card reveal d3" data-tilt>
-      <div class="sc-num">05 / DATA</div>
-      <div class="sc-head"><div class="sc-icon">🗄</div><div class="sc-name">DATABASES & OS</div></div>
-      <div class="tags"><span class="tag cy">SQL</span><span class="tag cy">MongoDB</span><span class="tag cy">NoSQL</span><span class="tag cy">Linux (RHEL)</span><span class="tag cy">Unix</span></div>
+      <div class="sc-head"><div class="sc-icon">🗄</div><div class="sc-name">DATA & SYSTEMS</div><div class="sc-num">05</div></div>
+      <div class="tags"><span class="tag b">SQL</span><span class="tag b">MongoDB</span><span class="tag b">Linux (RHEL)</span><span class="tag b">Unix</span><span class="tag b">Windows</span></div>
     </div>
     <div class="skill-card reveal d3" data-tilt>
-      <div class="sc-num">06 / SPECIAL</div>
-      <div class="sc-head"><div class="sc-icon">🤖</div><div class="sc-name">SPECIAL MOVES</div></div>
-      <div class="tags"><span class="tag pk">AI Agents</span><span class="tag pk">LLM Integration</span><span class="tag pk">Blockchain</span><span class="tag pk">Cryptography</span><span class="tag pk">DApps</span></div>
+      <div class="sc-head"><div class="sc-icon">✨</div><div class="sc-name">SPECIAL MOVES</div><div class="sc-num">06</div></div>
+      <div class="tags"><span class="tag l">AI Agents</span><span class="tag l">LLM Integration</span><span class="tag l">Blockchain</span><span class="tag l">Cryptography</span><span class="tag l">DApps</span></div>
     </div>
   </div>
 </section>
 
 <div class="divider"></div>
 
-<!-- ═══ PROJECTS / MISSIONS ═══ -->
+<!-- ═══ PROJECTS ═══ -->
 <section id="projects" class="section">
-  <div class="jp-deco" style="right:auto;left:48px;top:110px">作戦<br/>選択</div>
   <div class="reveal">
-    <div class="s-eyebrow">// mission_select.exe</div>
-    <h2 class="s-title">MISSION <span>SELECT</span> 🎮</h2>
-    <p class="s-sub">COMPLETED MISSIONS · RANK: S · NO CONTINUES USED (MOSTLY)</p>
+    <div class="s-eyebrow">// mission_log.exe</div>
+    <h2 class="s-title">COMPLETED <span class="acc">MISSIONS</span> ✦</h2>
+    <p class="s-sub">THINGS I BUILT · BUGS I SURVIVED · COMMITS THAT MATTERED</p>
   </div>
-  <div class="missions-grid">
-    <div class="mission-card reveal d1" data-tilt>
-      <div class="mission-num">MISSION 001</div>
-      <span class="mission-icon">🤖</span>
-      <div class="mission-name">Vibe-Check AI</div>
-      <div class="mission-badge">HACKATHON · DEVELOPER</div>
-      <p class="mission-desc">AI-based financial advisory platform analyzing user sentiment & financial behaviour via LLM. Personalized, secure, and built under hackathon pressure. Still works. Shocking.</p>
-      <div class="mission-techs"><span class="tech-pill">AI/LLM</span><span class="tech-pill">JavaScript</span><span class="tech-pill">Python</span><span class="tech-pill">Web Tech</span></div>
+  <div class="proj-grid">
+    <div class="proj-card reveal d1" data-tilt>
+      <div class="proj-num">MISSION · 001</div>
+      <span class="proj-icon">🤖</span>
+      <div class="proj-name">Vibe-Check AI</div>
+      <div class="proj-badge">HACKATHON · DEVELOPER</div>
+      <p class="proj-desc">AI-based financial advisory platform using LLM integration to analyze user sentiment and recommend personalized financial strategies. Built under hackathon pressure. Still works. Remarkable.</p>
+      <div class="proj-techs"><span class="tech-pill">AI/LLM</span><span class="tech-pill">JavaScript</span><span class="tech-pill">Python</span><span class="tech-pill">Web Tech</span></div>
     </div>
-    <div class="mission-card reveal d1" data-tilt>
-      <div class="mission-num">MISSION 002</div>
-      <span class="mission-icon">🦠</span>
-      <div class="mission-name">Pandemic Pulse Dashboard</div>
-      <div class="mission-badge">LEAD DEV · REAL-TIME</div>
-      <p class="mission-desc">Real-time disease outbreak monitoring tool with live data pipelines, interactive maps, and alert systems. Because someone has to watch the petri dish.</p>
-      <div class="mission-techs"><span class="tech-pill">Python</span><span class="tech-pill">JavaScript</span><span class="tech-pill">Data Viz</span><span class="tech-pill">APIs</span></div>
+    <div class="proj-card reveal d1" data-tilt>
+      <div class="proj-num">MISSION · 002</div>
+      <span class="proj-icon">🦠</span>
+      <div class="proj-name">Pandemic Pulse Dashboard</div>
+      <div class="proj-badge">LEAD DEV · REAL-TIME</div>
+      <p class="proj-desc">Real-time disease outbreak monitoring with live data pipelines, interactive visualizations, and alert systems. Because someone has to watch the petri dish.</p>
+      <div class="proj-techs"><span class="tech-pill">Python</span><span class="tech-pill">JavaScript</span><span class="tech-pill">Data Viz</span><span class="tech-pill">APIs</span></div>
     </div>
-    <div class="mission-card reveal d2" data-tilt>
-      <div class="mission-num">MISSION 003</div>
-      <span class="mission-icon">🔍</span>
-      <div class="mission-name">Digital Forensic Case</div>
-      <div class="mission-badge">FORENSICS ANALYST</div>
-      <p class="mission-desc">Full forensic investigation: disk imaging, memory analysis, evidence chain-of-custody. Formal report. The defendants did not appreciate it.</p>
-      <div class="mission-techs"><span class="tech-pill">Forensics</span><span class="tech-pill">Autopsy</span><span class="tech-pill">Linux</span><span class="tech-pill">FTK</span></div>
+    <div class="proj-card reveal d2" data-tilt>
+      <div class="proj-num">MISSION · 003</div>
+      <span class="proj-icon">🔍</span>
+      <div class="proj-name">Digital Forensic Case Study</div>
+      <div class="proj-badge">FORENSICS ANALYST</div>
+      <p class="proj-desc">Full forensic investigation: disk imaging, memory analysis, chain-of-custody documentation. Formal case report written. The defendants did not appreciate the thoroughness.</p>
+      <div class="proj-techs"><span class="tech-pill">Forensics</span><span class="tech-pill">Autopsy</span><span class="tech-pill">Linux</span><span class="tech-pill">FTK</span></div>
     </div>
-    <div class="mission-card reveal d2" data-tilt>
-      <div class="mission-num">MISSION 004</div>
-      <span class="mission-icon">✨</span>
-      <div class="mission-name">Enchant Digital Solutions</div>
-      <div class="mission-badge">UI/UX · WORDPRESS</div>
-      <p class="mission-desc">Modern, premium UI/UX website for a digital marketing agency. Responsive, animated, silky smooth. Client said "wow". I said "I know".</p>
-      <div class="mission-techs"><span class="tech-pill">HTML5</span><span class="tech-pill">CSS3</span><span class="tech-pill">JavaScript</span><span class="tech-pill">WordPress</span></div>
+    <div class="proj-card reveal d2" data-tilt>
+      <div class="proj-num">MISSION · 004</div>
+      <span class="proj-icon">✨</span>
+      <div class="proj-name">Enchant Digital Solutions</div>
+      <div class="proj-badge">UI/UX · WORDPRESS</div>
+      <p class="proj-desc">Modern, responsive premium website for a digital marketing agency. Silky animations, perfect responsiveness. Client said wow. I said I know.</p>
+      <div class="proj-techs"><span class="tech-pill">HTML5</span><span class="tech-pill">CSS3</span><span class="tech-pill">JavaScript</span><span class="tech-pill">WordPress</span></div>
     </div>
   </div>
 </section>
 
 <div class="divider"></div>
 
-<!-- ═══ EXPERIENCE / STORY MODE ═══ -->
+<!-- ═══ EXPERIENCE ═══ -->
 <section id="experience" class="section">
   <div class="reveal">
-    <div class="s-eyebrow">// story_mode.log</div>
-    <h2 class="s-title">STORY <span>MODE</span> 📜</h2>
-    <p class="s-sub">THE LORE · SIDE QUESTS INCLUDED</p>
+    <div class="s-eyebrow">// story_arc.log</div>
+    <h2 class="s-title">THE <span class="acc">LORE</span> ✦</h2>
+    <p class="s-sub">EXPERIENCE · CERTIFICATIONS · UNLOCKED ACHIEVEMENTS</p>
   </div>
   <div class="timeline reveal d1">
     <div class="tl-item">
@@ -428,178 +414,196 @@ nav{position:fixed;top:0;left:0;right:0;z-index:500;display:flex;align-items:cen
       <div class="tl-date">JUN 2024 – JUL 2024</div>
       <div class="tl-title">Cybersecurity Intern</div>
       <div class="tl-org">IBM / Edunet Foundation</div>
-      <div class="tl-desc">Structured cybersecurity training under IBM mentorship. Enterprise-grade threat modeling, vulnerability assessment, and actual experience touching real-world security workflows. Got the stamp. Didn't break anything (officially).</div>
+      <div class="tl-desc">Structured cybersecurity training under IBM mentorship. Enterprise-grade threat modeling, vulnerability assessment, and real-world security workflows. Got the stamp. Didn't break anything (officially).</div>
     </div>
     <div class="tl-item">
       <div class="tl-dot"></div>
       <div class="tl-date">2023 – PRESENT</div>
       <div class="tl-title">B.Tech CSE (Cybersecurity)</div>
       <div class="tl-org">GD Goenka University · Gurugram</div>
-      <div class="tl-desc">Deep-diving into Digital Forensics, OS, Networks, Blockchain & Cryptography, Web Tech, and DBMS. Building things that sometimes work. Fixing things that used to work. The classic student experience.</div>
+      <div class="tl-desc">Deep-diving into Digital Forensics, Computer Networks, Blockchain & Cryptography, Web Tech, and OS fundamentals. Building things that sometimes work on the first try.</div>
     </div>
   </div>
 
-  <div style="margin-top:60px" class="reveal d2">
-    <div class="s-eyebrow" style="margin-bottom:10px">// cert_inventory[]</div>
-    <h3 style="font-family:'Orbitron',monospace;font-size:18px;font-weight:700;margin-bottom:28px;color:var(--text)">CERTIFICATIONS <span style="color:var(--purple)">🏅</span></h3>
+  <div style="margin-top:56px" class="reveal d2">
+    <div class="s-eyebrow" style="margin-bottom:10px">// cert_inventory</div>
+    <h3 style="font-family:'Orbitron',monospace;font-size:17px;font-weight:700;margin-bottom:24px;color:var(--text)">CERTIFICATIONS ✦</h3>
     <div class="certs-row">
-      <div class="cert-card">
-        <div class="cc-e">🎓</div>
-        <div class="cc-n">Web Dev Bootcamp 2025</div>
-        <div class="cc-d">Udemy · Colt Steele<br/>74 hrs · Jul 12, 2025</div>
-        <div class="cc-s done">✅ OBTAINED</div>
-      </div>
-      <div class="cert-card">
-        <div class="cc-e">🔴</div>
-        <div class="cc-n">RHCSA (EX200)</div>
-        <div class="cc-d">Red Hat Certified<br/>System Administrator</div>
-        <div class="cc-s wip">⏳ IN PROGRESS</div>
-      </div>
-      <div class="cert-card">
-        <div class="cc-e">🔐</div>
-        <div class="cc-n">Cybersecurity Fundamentals</div>
-        <div class="cc-d">IBM / Edunet Foundation<br/>Enterprise security track</div>
-        <div class="cc-s done">✅ OBTAINED</div>
-      </div>
+      <div class="cert-card"><div class="cc-e">🎓</div><div class="cc-n">Web Dev Bootcamp 2025</div><div class="cc-d">Udemy · Colt Steele<br/>74 hrs · Jul 2025</div><div class="cc-s done">✦ OBTAINED</div></div>
+      <div class="cert-card"><div class="cc-e">🔴</div><div class="cc-n">RHCSA (EX200)</div><div class="cc-d">Red Hat Systems Admin<br/>In active training</div><div class="cc-s wip">◌ IN PROGRESS</div></div>
+      <div class="cert-card"><div class="cc-e">🔐</div><div class="cc-n">Cybersecurity Fundamentals</div><div class="cc-d">IBM / Edunet Foundation<br/>Enterprise security track</div><div class="cc-s done">✦ OBTAINED</div></div>
     </div>
   </div>
 
-  <div style="margin-top:60px" class="reveal d3">
-    <div class="s-eyebrow" style="margin-bottom:10px">// achievement_unlocked[]</div>
-    <h3 style="font-family:'Orbitron',monospace;font-size:18px;font-weight:700;margin-bottom:28px;color:var(--text)">ACHIEVEMENTS <span style="color:var(--yellow)">🏆</span></h3>
+  <div style="margin-top:56px" class="reveal d3">
+    <div class="s-eyebrow" style="margin-bottom:10px">// achievements[]</div>
+    <h3 style="font-family:'Orbitron',monospace;font-size:17px;font-weight:700;margin-bottom:24px;color:var(--text)">ACHIEVEMENTS ✦</h3>
     <div class="ach-grid">
-      <div class="ach-card"><div class="ach-icon">🏆</div><div><div class="ach-title">HACKATHON SURVIVOR</div><div class="ach-detail">Built Vibe-Check AI in competitive conditions. Presented to industry. Slept afterwards.</div></div></div>
-      <div class="ach-card"><div class="ach-icon">🌐</div><div><div class="ach-title">LIVE DEPLOYMENT</div><div class="ach-detail">Multiple projects running in production. Nobody's called yet. Good sign.</div></div></div>
-      <div class="ach-card"><div class="ach-icon">🐙</div><div><div class="ach-title">GITHUB LURKER</div><div class="ach-detail">Active at github.com/VOIDx27. Tools, experiments, and code nobody asked for.</div></div></div>
-      <div class="ach-card"><div class="ach-icon">📡</div><div><div class="ach-title">IBM CERTIFIED TRAINEE</div><div class="ach-detail">Completed IBM's structured cybersecurity program with actual industry mentors.</div></div></div>
+      <div class="ach-card"><div class="ach-icon">🏆</div><div><div class="ach-title">HACKATHON SURVIVOR</div><div class="ach-detail">Built Vibe-Check AI under competitive pressure. Presented to industry. Slept for 12 hours afterwards.</div></div></div>
+      <div class="ach-card"><div class="ach-icon">🌐</div><div><div class="ach-title">LIVE DEPLOYMENT</div><div class="ach-detail">Multiple projects live in production. No complaints received. That's the goal.</div></div></div>
+      <div class="ach-card"><div class="ach-icon">🐙</div><div><div class="ach-title">GITHUB EXPLORER</div><div class="ach-detail">Active at github.com/VOIDx27. Tools, experiments, code that nobody asked for but exists anyway.</div></div></div>
+      <div class="ach-card"><div class="ach-icon">📡</div><div><div class="ach-title">IBM TRAINED</div><div class="ach-detail">Completed IBM's structured cybersecurity program with actual industry-grade mentors.</div></div></div>
     </div>
   </div>
 </section>
 
 <div class="divider"></div>
 
-<!-- ═══ CONTACT / SAVE POINT ═══ -->
+<!-- ═══ CONTACT ═══ -->
 <section id="contact" class="section">
-  <div class="save-point reveal">
-    <span class="save-icon">💾</span>
-    <div class="save-title">SAVE POINT</div>
-    <p class="save-sub">REACHED A CHECKPOINT · セーブポイント<br/>WANNA HIRE A LVEIL 3 ETHICAL HACKER? HIT THE BUTTONS BELOW.</p>
+  <div class="contact-inner reveal">
+    <span class="contact-icon">🌌</span>
+    <div class="contact-title">LET'S CONNECT</div>
+    <p class="contact-sub">つながろう · ACTIVELY SEEKING INTERNSHIPS<br/>IF YOU NEED SOMEONE WHO BREAKS SYSTEMS AND FIXES THEM TOO</p>
     <div class="contact-links">
-      <a href="mailto:gauravkumar9416385177@gmail.com" class="contact-btn em">📧 EMAIL ME</a>
-      <a href="https://github.com/VOIDx27" target="_blank" class="contact-btn gh">🐙 GITHUB</a>
-      <a href="https://www.linkedin.com/in/gaurav-kumar-190430295/" target="_blank" class="contact-btn li">💼 LINKEDIN</a>
+      <a href="mailto:gauravkumar9416385177@gmail.com" class="cbtn em">📧 EMAIL</a>
+      <a href="https://github.com/VOIDx27" target="_blank" class="cbtn gh">🐙 GITHUB</a>
+      <a href="https://www.linkedin.com/in/gaurav-kumar-190430295/" target="_blank" class="cbtn li">💼 LINKEDIN</a>
     </div>
-    <div class="footer">
-      MADE WITH <span>♥</span> + CAFFEINE + 夜2時 · © 2025 GAURAV KUMAR · <span>NO SYSTEMS WERE HARMED</span>
-    </div>
+    <div class="footer">CRAFTED WITH <span>♥</span> + CAFFEINE + 星空 · © 2025 GAURAV KUMAR · <span>星は遠くても、光は届く</span></div>
   </div>
 </section>
 
 <script>
 // ── LOADER ──
-window.addEventListener('load', () => {
-  setTimeout(() => { document.getElementById('loader').classList.add('gone'); }, 2200);
+window.addEventListener('load',()=>{
+  setTimeout(()=>{document.getElementById('loader').classList.add('gone')},2400);
 });
 
 // ── CURSOR ──
-const cur = document.getElementById('cur');
-document.addEventListener('mousemove', e => { cur.style.left = e.clientX+'px'; cur.style.top = e.clientY+'px'; });
-document.querySelectorAll('a,button,[data-tilt],.contact-btn,.mission-card,.skill-card').forEach(el => {
-  el.addEventListener('mouseenter', () => cur.classList.add('hov'));
-  el.addEventListener('mouseleave', () => cur.classList.remove('hov'));
+const cur=document.getElementById('cur'),ring=document.getElementById('cur-ring');
+let rx=0,ry=0,cx=0,cy=0;
+document.addEventListener('mousemove',e=>{cx=e.clientX;cy=e.clientY;cur.style.left=cx+'px';cur.style.top=cy+'px'});
+(function animRing(){rx+=(cx-rx)*0.1;ry+=(cy-ry)*0.1;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(animRing)})();
+document.querySelectorAll('a,button,[data-tilt]').forEach(el=>{
+  el.addEventListener('mouseenter',()=>{cur.classList.add('hov');ring.classList.add('hov')});
+  el.addEventListener('mouseleave',()=>{cur.classList.remove('hov');ring.classList.remove('hov')});
 });
 
 // ── SCROLL REVEAL ──
-const revs = document.querySelectorAll('.reveal');
-const ro = new IntersectionObserver(es => es.forEach(e => { if(e.isIntersecting){e.target.classList.add('vis');ro.unobserve(e.target);} }), {threshold:0.1});
-revs.forEach(r => ro.observe(r));
-setTimeout(() => { document.querySelector('.hero .reveal').classList.add('vis'); }, 300);
+const revs=document.querySelectorAll('.reveal');
+const ro=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('vis');ro.unobserve(e.target)}}),{threshold:0.1});
+revs.forEach(r=>ro.observe(r));
+setTimeout(()=>{const h=document.querySelector('.hero .reveal');if(h)h.classList.add('vis')},300);
 
-// ── NAV SCROLL ──
-window.addEventListener('scroll', () => {
-  document.querySelector('nav').style.borderBottomColor = window.scrollY > 50 ? 'rgba(255,45,120,0.35)' : 'rgba(255,45,120,0.2)';
+// ── TILT ──
+document.querySelectorAll('[data-tilt]').forEach(el=>{
+  el.addEventListener('mousemove',e=>{
+    const r=el.getBoundingClientRect(),x=(e.clientX-r.left)/r.width-.5,y=(e.clientY-r.top)/r.height-.5;
+    el.style.transform=`perspective(700px) rotateX(${-y*8}deg) rotateY(${x*8}deg) translateY(-6px)`;
+    el.style.transition='none';
+  });
+  el.addEventListener('mouseleave',()=>{el.style.transform='';el.style.transition='transform 0.7s cubic-bezier(0.34,1.56,0.64,1)'});
 });
 
-// ── KATAKANA RAIN ──
+// ── SKY CANVAS ── Frieren-style dreamy twilight with stars & magic particles
 (function(){
-  const c = document.getElementById('rain'), ctx = c.getContext('2d');
-  const chars = 'アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン0123456789ガギグゲゴ駭客防御倫理セキュリティ'.split('');
-  let W, H, cols, drops;
-  function init(){
-    W = c.width = window.innerWidth; H = c.height = window.innerHeight;
-    cols = Math.floor(W/18); drops = Array(cols).fill(1);
-  }
-  init(); window.addEventListener('resize', init);
-  setInterval(() => {
-    ctx.fillStyle = 'rgba(0,0,8,0.07)';
-    ctx.fillRect(0,0,W,H);
-    drops.forEach((y,i) => {
-      const ch = chars[Math.floor(Math.random()*chars.length)];
-      const intensity = Math.random();
-      ctx.fillStyle = intensity > 0.95 ? '#fff' : intensity > 0.7 ? '#ff2d78' : '#00fff5';
-      ctx.font = `${Math.random() > 0.8 ? 14 : 12}px 'Share Tech Mono', monospace`;
-      ctx.fillText(ch, i*18, y*18);
-      if(y*18 > H && Math.random() > 0.975) drops[i] = 0;
-      drops[i]++;
-    });
-  }, 55);
-})();
+  const c=document.getElementById('sky-canvas'),ctx=c.getContext('2d');
+  let W,H;
+  function resize(){W=c.width=window.innerWidth;H=c.height=window.innerHeight}
+  resize();window.addEventListener('resize',resize);
 
-// ── SYNTHWAVE GRID ──
-(function(){
-  const c = document.getElementById('grid-canvas'), ctx = c.getContext('2d');
-  let W, H, t = 0;
-  function init(){ W = c.width = window.innerWidth; H = c.height = c.offsetHeight; }
-  init(); window.addEventListener('resize', init);
-  function draw(){
-    ctx.clearRect(0,0,W,H);
-    // Horizon glow
-    const grd = ctx.createLinearGradient(0,0,0,H);
-    grd.addColorStop(0,'transparent');
-    grd.addColorStop(0.5,'rgba(180,0,255,0.08)');
-    grd.addColorStop(1,'rgba(255,45,120,0.15)');
-    ctx.fillStyle = grd; ctx.fillRect(0,0,W,H);
-    // Horizon line
-    ctx.strokeStyle = 'rgba(255,45,120,0.6)'; ctx.lineWidth = 1.5;
-    ctx.beginPath(); ctx.moveTo(0,H*0.35); ctx.lineTo(W,H*0.35); ctx.stroke();
-    // Vertical lines (perspective)
-    const vp = {x:W/2, y:H*0.35};
-    for(let i=-18; i<=18; i++){
-      const angle = (i/18)*Math.PI*0.6;
-      const ex = vp.x + Math.tan(angle)*W*0.8;
-      const alpha = 1 - Math.abs(i)/20;
-      ctx.strokeStyle = `rgba(180,0,255,${alpha*0.35})`; ctx.lineWidth = 0.8;
-      ctx.beginPath(); ctx.moveTo(vp.x,vp.y); ctx.lineTo(ex,H); ctx.stroke();
+  // Stars
+  const STARS=200, stars=Array.from({length:STARS},()=>({
+    x:Math.random(),y:Math.random(),
+    r:Math.random()*1.1+0.2,
+    twinkle:Math.random()*Math.PI*2,
+    speed:Math.random()*0.008+0.003,
+    color:['#7db9e8','#c4a8e8','#90d4b8','#ffffff','#f0d080'][Math.floor(Math.random()*5)]
+  }));
+
+  // Magic particles (Frieren spell motes)
+  const MOTES=55, motes=Array.from({length:MOTES},()=>({
+    x:Math.random()*100,y:Math.random()*100,
+    vx:(Math.random()-.5)*0.04,vy:-(Math.random()*0.06+0.02),
+    r:Math.random()*2+0.5,
+    life:Math.random(),
+    maxLife:Math.random()*0.5+0.5,
+    color:['rgba(125,185,232,','rgba(196,168,232,','rgba(144,212,184,','rgba(240,208,128,'][Math.floor(Math.random()*4)]
+  }));
+
+  // Distant mountain silhouettes
+  function drawMountains(){
+    const grad=ctx.createLinearGradient(0,H*0.55,0,H);
+    grad.addColorStop(0,'rgba(20,30,70,0)');
+    grad.addColorStop(1,'rgba(7,13,31,0.95)');
+    ctx.fillStyle=grad;
+
+    // Far mountains
+    ctx.beginPath();ctx.moveTo(0,H*0.82);
+    for(let i=0;i<=W;i+=60){ctx.lineTo(i,H*0.72+Math.sin(i*0.006)*H*0.07+Math.sin(i*0.013)*H*0.04)}
+    ctx.lineTo(W,H);ctx.lineTo(0,H);ctx.closePath();
+    ctx.fillStyle='rgba(15,22,48,0.7)';ctx.fill();
+
+    // Near hills
+    ctx.beginPath();ctx.moveTo(0,H*0.88);
+    for(let i=0;i<=W;i+=40){ctx.lineTo(i,H*0.82+Math.sin(i*0.009)*H*0.05+Math.cos(i*0.017)*H*0.03)}
+    ctx.lineTo(W,H);ctx.lineTo(0,H);ctx.closePath();
+    ctx.fillStyle='rgba(10,16,38,0.85)';ctx.fill();
+  }
+
+  // Aurora bands
+  let aTime=0;
+  function drawAurora(){
+    aTime+=0.003;
+    for(let i=0;i<3;i++){
+      const y=H*(0.25+i*0.08)+Math.sin(aTime+i*1.4)*H*0.04;
+      const grad=ctx.createLinearGradient(0,y-60,0,y+60);
+      const cols=['rgba(125,185,232,','rgba(196,168,232,','rgba(144,212,184,'];
+      grad.addColorStop(0,'transparent');
+      grad.addColorStop(0.5,cols[i]+(0.03+Math.sin(aTime*0.7+i)*0.02)+')');
+      grad.addColorStop(1,'transparent');
+      ctx.fillStyle=grad;
+      ctx.beginPath();
+      for(let x=0;x<=W;x+=4){
+        const yOff=Math.sin(x*0.005+aTime+i*2)*20+Math.sin(x*0.012+aTime*0.5)*10;
+        x===0?ctx.moveTo(x,y+yOff):ctx.lineTo(x,y+yOff);
+      }
+      ctx.lineTo(W,y+80);ctx.lineTo(0,y+80);ctx.closePath();
+      ctx.fill();
     }
-    // Horizontal lines (scroll)
-    const speed = (t * 0.6) % 30;
-    for(let row=0; row<12; row++){
-      const pct = (row/11);
-      const y = vp.y + (H - vp.y) * Math.pow(pct, 1.6);
-      const yShift = (y - vp.y) * (speed/30) * 0.1;
-      const alpha = pct * 0.5;
-      ctx.strokeStyle = `rgba(255,45,120,${alpha})`; ctx.lineWidth = 0.8;
-      ctx.beginPath(); ctx.moveTo(0, y+yShift); ctx.lineTo(W, y+yShift); ctx.stroke();
-    }
-    t++;
+  }
+
+  function draw(t){
+    // Sky gradient
+    const sg=ctx.createLinearGradient(0,0,0,H);
+    sg.addColorStop(0,'#050b1a');
+    sg.addColorStop(0.4,'#0a1230');
+    sg.addColorStop(0.7,'#150835');
+    sg.addColorStop(1,'#070d1f');
+    ctx.fillStyle=sg;ctx.fillRect(0,0,W,H);
+
+    drawAurora();
+
+    // Stars
+    stars.forEach(s=>{
+      s.twinkle+=s.speed;
+      const op=0.5+Math.sin(s.twinkle)*0.4;
+      ctx.beginPath();
+      ctx.arc(s.x*W,s.y*H,s.r,0,Math.PI*2);
+      ctx.fillStyle=s.color.replace(')',`,${op})`).replace('rgb','rgba').replace('rgba(rgba','rgba');
+      ctx.shadowColor=s.color;ctx.shadowBlur=s.r*4;
+      ctx.fill();ctx.shadowBlur=0;
+    });
+
+    // Magic motes
+    motes.forEach(m=>{
+      m.life+=0.004;m.x+=m.vx;m.y+=m.vy;
+      if(m.life>=m.maxLife){m.life=0;m.x=Math.random()*100;m.y=80+Math.random()*20}
+      const pct=m.life/m.maxLife;
+      const op=pct<0.2?pct/0.2:pct>0.8?(1-pct)/0.2:1;
+      ctx.beginPath();
+      ctx.arc(m.x/100*W,m.y/100*H,m.r,0,Math.PI*2);
+      ctx.fillStyle=m.color+(op*0.7)+')';
+      ctx.shadowColor=m.color+'0.5)';ctx.shadowBlur=m.r*6;
+      ctx.fill();ctx.shadowBlur=0;
+    });
+
+    drawMountains();
     requestAnimationFrame(draw);
   }
-  draw();
+  requestAnimationFrame(draw);
 })();
-
-// ── 3D TILT ──
-document.querySelectorAll('[data-tilt]').forEach(el => {
-  el.addEventListener('mousemove', e => {
-    const r = el.getBoundingClientRect();
-    const x = (e.clientX - r.left) / r.width - 0.5;
-    const y = (e.clientY - r.top) / r.height - 0.5;
-    el.style.transform = `perspective(600px) rotateX(${-y*12}deg) rotateY(${x*12}deg) translateY(-6px) scale(1.02)`;
-    el.style.transition = 'none';
-  });
-  el.addEventListener('mouseleave', () => {
-    el.style.transform = ''; el.style.transition = 'transform 0.6s cubic-bezier(0.34,1.56,0.64,1)';
-  });
-});
 </script>
 </body>
 </html>
